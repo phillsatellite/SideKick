@@ -85,15 +85,9 @@ SideKick/
 
 ## Getting Started
 
-> **For end users:** You just need an [OpenAI API key](https://platform.openai.com/api-keys). Create an account in the app, enter your key, and you're good to go. The sections below are for developers who want to run or self-host their own instance.
+All you need is an [OpenAI API key](https://platform.openai.com/api-keys). Create an account in the app, enter your key, and start recording.
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org) (v18 or higher recommended)
-- A [Firebase project](https://console.firebase.google.com) with Authentication and Firestore enabled
-- A [Google Cloud project](https://console.cloud.google.com) with the Google Drive API enabled (optional, for Drive exports)
-
-### Installation
+### Development
 
 1. **Clone the repository**
 
@@ -110,36 +104,9 @@ SideKick/
 
 3. **Set up environment variables**
 
-   Create a `.env` file in the project root:
+   Create a `.env` file in the project root with the Firebase and Google OAuth credentials. See `.env.example` for the required variables.
 
-   ```env
-   # Firebase
-   VITE_FIREBASE_API_KEY=your_firebase_api_key
-   VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-   VITE_FIREBASE_PROJECT_ID=your_project_id
-   VITE_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
-   VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-   VITE_FIREBASE_APP_ID=your_app_id
-
-   # Google OAuth (for Drive export, optional)
-   VITE_GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
-   ```
-
-4. **Configure Firebase**
-
-   - Go to the [Firebase Console](https://console.firebase.google.com)
-   - Enable **Authentication** with Email/Password and Google providers
-   - Create a **Cloud Firestore** database
-
-5. **Configure Google Drive (optional)**
-
-   - Go to the [Google Cloud Console](https://console.cloud.google.com)
-   - Enable the **Google Drive API**
-   - Create an **OAuth 2.0 Client ID** (Web application type)
-   - Add your dev URL (e.g., `http://localhost:5173`) to Authorized JavaScript origins
-   - If the app is in testing mode, add your email to **OAuth consent screen > Test users**
-
-6. **Start the dev server**
+4. **Start the dev server**
 
    ```bash
    npm run dev
