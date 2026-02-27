@@ -1,0 +1,107 @@
+.output-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: border-color 0.3s;
+}
+
+.output-card.has-content {
+  border-color: var(--text-muted);
+}
+
+.output-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.output-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.output-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.output-icon-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.output-icon-btn:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.output-icon-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.output-icon-btn.copied {
+  color: #2d9e6b;
+  border-color: #2d9e6b;
+  background: rgba(45, 158, 107, 0.08);
+}
+
+.output-body {
+  padding: 32px 40px;
+  min-height: 100px;
+  max-height: 70vh;
+  overflow-y: auto;
+  display: flex;
+  align-items: flex-start;
+}
+
+.output-text {
+  font-family: 'Instrument Serif', serif;
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--text);
+  width: 100%;
+  white-space: pre-wrap;
+  tab-size: 4;
+}
+
+.output-placeholder {
+  font-size: 13px;
+  color: var(--text-muted);
+  opacity: 0.6;
+  line-height: 1.5;
+}
+
+/* Processing dots */
+.output-processing {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.output-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+.output-dot:nth-child(2) { animation-delay: 0.2s; }
+.output-dot:nth-child(3) { animation-delay: 0.4s; }

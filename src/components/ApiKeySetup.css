@@ -1,0 +1,117 @@
+.setup-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeUp 0.4s ease both;
+}
+
+.setup-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.setup-card h2 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.setup-card p {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.setup-input-wrap {
+  position: relative;
+}
+
+.setup-input {
+  width: 100%;
+  padding: 12px 44px 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 16px; /* was 13px — anything below 16px triggers iOS zoom */
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+
+
+.setup-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.setup-eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+
+.setup-submit-btn {
+  width: 100%;
+  padding: 13px;
+  margin-top: 10px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.setup-submit-btn:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.setup-submit-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.setup-submit-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.setup-privacy-note {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.setup-privacy-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--text-muted);
+}
+
+.setup-privacy-note span {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}

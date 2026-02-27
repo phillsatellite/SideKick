@@ -1,0 +1,81 @@
+.app-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 20px 48px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-hero {
+  padding: 48px 0 36px;
+  text-align: center;
+}
+
+.app-hero-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(36px, 9vw, 48px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.app-hero-title em {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.app-hero-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+
+.app-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 24px;
+  animation: fadeUp 0.35s ease both;
+}
+
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+}
+
+.app-footer-key {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.app-footer-key-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2d9e6b;
+}
+
+.app-signout-btn {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Syne', sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+  padding: 4px 0;
+}
+
+.app-signout-btn:hover {
+  color: var(--text);
+}

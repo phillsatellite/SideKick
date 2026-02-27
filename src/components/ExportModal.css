@@ -1,0 +1,177 @@
+.export-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.15s ease;
+  padding: 20px;
+}
+
+.export-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 400px;
+  animation: fadeUp 0.25s ease both;
+}
+
+.export-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.export-modal-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.export-close-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.export-close-btn:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.export-section {
+  padding: 16px 18px 0;
+}
+
+.export-section:last-of-type {
+  padding-bottom: 18px;
+}
+
+.export-section-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.export-format-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.export-format-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+}
+
+.export-format-btn:hover {
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+.export-format-btn.selected {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+.export-dest-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.export-dest-btn {
+  width: 100%;
+  padding: 13px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.2s, transform 0.15s, border-color 0.2s;
+}
+
+.export-dest-btn:hover:not(:disabled) {
+  border-color: var(--text-muted);
+}
+
+.export-dest-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.export-dest-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.export-dest-btn.primary {
+  border: none;
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+.export-dest-btn.primary:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.export-error {
+  padding: 0 18px 14px;
+  font-size: 11px;
+  color: #e63e2f;
+  line-height: 1.5;
+}
+
+.export-success {
+  padding: 0 18px 14px;
+  font-size: 11px;
+  color: #2d9e6b;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
