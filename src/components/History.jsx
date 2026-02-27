@@ -1,4 +1,3 @@
-import React from "react";
 import "./History.css";
 
 export default function History({ items, onSelect }) {

@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { sendPasswordResetEmail, deleteUser, reauthenticateWithCredential, EmailAuthProvider, reauthenticateWithPopup } from "firebase/auth";
 import { doc, deleteDoc } from "firebase/firestore";
 import { auth, db, googleProvider } from "../utils/firebase";
 import { getAccessToken } from "../utils/googleDrive";
+import { CloseIcon } from "./Icons";
 import "./SettingsModal.css";
 
 /* ── Icons ── */
-
-const CloseIcon = () => (
-  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="18" y1="6" x2="6" y2="18" />
-    <line x1="6" y1="6" x2="18" y2="18" />
-  </svg>
-);
 
 const UserIcon = ({ size = 15 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
