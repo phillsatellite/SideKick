@@ -2,7 +2,7 @@
 
 **Voice-to-text, formatted for you.**
 
-Sidekick is a progressive web app that turns your voice into clean, structured notes. Tap the mic, speak naturally, and get formatted text back instantly — powered by OpenAI Whisper for transcription and GPT-4o-mini for intelligent formatting.
+Sidekick is a progressive web app that turns your voice into clean, structured notes. Tap the mic, speak naturally, and get formatted text back instantly.
 
 ## Features
 
