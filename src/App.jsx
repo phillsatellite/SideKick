@@ -37,6 +37,16 @@ export default function App() {
   }, [dark]);
 
   useEffect(() => {
+    // Allow Cypress to inject a mock user for E2E testing
+    const mockUser = window.__CYPRESS_MOCK_USER__;
+    if (mockUser) {
+      setUser(mockUser);
+      setAuthLoading(false);
+      const savedKey = localStorage.getItem(`sidekick_apikey_${mockUser.uid}`);
+      if (savedKey) setApiKey(savedKey);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
       setAuthLoading(false);
