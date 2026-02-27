@@ -21,3 +21,8 @@ dist/
 
 # Vite
 .vite/
+
+# Cypress
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
