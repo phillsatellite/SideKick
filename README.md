@@ -114,13 +114,6 @@ All you need is an [OpenAI API key](https://platform.openai.com/api-keys). Creat
 
    The app will be available at `http://localhost:5173`.
 
-### Build for Production
-
-```bash
-npm run build
-npm run preview   # Preview the production build locally
-```
-
 ## How It Works
 
 1. **Onboarding** — First-time users see a welcome page explaining the app
