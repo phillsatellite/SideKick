@@ -53,6 +53,22 @@ Sidekick is a progressive web app that turns your voice into clean, structured n
 
 ```
 SideKick/
+├── .github/
+│   └── workflows/
+│       └── ci.yml              # GitHub Actions — runs tests on PRs
+├── cypress/
+│   ├── e2e/
+│   │   ├── auth.cy.js          # Authentication tests (A-1 – A-11)
+│   │   ├── welcome.cy.js       # Onboarding tests (W-1 – W-4)
+│   │   ├── apikey.cy.js        # API key setup tests (K-1 – K-6)
+│   │   ├── main-app.cy.js      # Mic, output, history tests (M/O/H)
+│   │   ├── export.cy.js        # Export modal tests (E-1 – E-7)
+│   │   ├── settings.cy.js      # Settings modal tests (S/SA/SF/SB)
+│   │   └── theme-header.cy.js  # Theme and header tests (T/HD)
+│   └── support/
+│       └── e2e.js              # Custom commands and test helpers
+├── docs/
+│   └── TEST_PLAN.md            # Full test plan (71 cases)
 ├── public/
 │   ├── icons/                  # PWA icons (192px, 512px, SVG)
 │   └── manifest.json           # PWA manifest
@@ -71,12 +87,15 @@ SideKick/
 │   │   ├── History.jsx         # Recent transcription list
 │   │   ├── ExportModal.jsx     # Format picker + export destinations
 │   │   ├── SettingsModal.jsx   # Account / Formats / About tabs
+│   │   ├── Icons.jsx           # Shared SVG icon components
 │   │   └── *.css               # Component-scoped styles
 │   └── utils/
 │       ├── firebase.js         # Firebase app, auth, Firestore init
 │       ├── openai.js           # Whisper + GPT-4o-mini API calls
 │       ├── exportFile.js       # PDF/DOCX/TXT/MD file generation
-│       └── googleDrive.js      # Google Drive OAuth + upload
+│       ├── googleDrive.js      # Google Drive OAuth + upload
+│       └── mockData.js         # Mock data for development/testing
+├── cypress.config.js           # Cypress configuration
 ├── index.html
 ├── vite.config.js
 ├── package.json
