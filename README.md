@@ -85,12 +85,13 @@ SideKick/
 
 ## Getting Started
 
+> **For end users:** You just need an [OpenAI API key](https://platform.openai.com/api-keys). Create an account in the app, enter your key, and you're good to go. The sections below are for developers who want to run or self-host their own instance.
+
 ### Prerequisites
 
 - [Node.js](https://nodejs.org) (v18 or higher recommended)
-- An [OpenAI API key](https://platform.openai.com/api-keys) (each user provides their own at runtime)
 - A [Firebase project](https://console.firebase.google.com) with Authentication and Firestore enabled
-- A [Google Cloud project](https://console.cloud.google.com) with the Google Drive API enabled (for Drive exports)
+- A [Google Cloud project](https://console.cloud.google.com) with the Google Drive API enabled (optional, for Drive exports)
 
 ### Installation
 
@@ -120,7 +121,7 @@ SideKick/
    VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
    VITE_FIREBASE_APP_ID=your_app_id
 
-   # Google OAuth (for Drive export)
+   # Google OAuth (for Drive export, optional)
    VITE_GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
    ```
 
