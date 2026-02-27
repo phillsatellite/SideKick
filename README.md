@@ -114,6 +114,20 @@ All you need is an [OpenAI API key](https://platform.openai.com/api-keys). Creat
 
    The app will be available at `http://localhost:5173`.
 
+### Testing
+
+Sidekick uses [Cypress](https://www.cypress.io) for end-to-end testing. Tests run automatically on every pull request via GitHub Actions.
+
+```bash
+# Open Cypress UI
+npm run cy:open
+
+# Run all tests headlessly
+npm run cy:run
+```
+
+The dev server must be running on `http://localhost:5173` before launching tests.
+
 ## How It Works
 
 1. **Onboarding** — First-time users see a welcome page explaining the app
