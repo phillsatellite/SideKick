@@ -87,7 +87,8 @@ describe("Authentication", () => {
 
   it("A-11: Sign out clears state and returns to API key screen", () => {
     cy.goToMainApp();
-    cy.get(".app-signout-btn").click();
+    // Sign out button is now in the sidebar
+    cy.contains("Sign out").click();
     // With mock user, signOut clears apiKey but user persists (no real Firebase listener).
     // App shows API key setup screen since user exists but apiKey is empty.
     cy.get(".setup-card").should("exist");

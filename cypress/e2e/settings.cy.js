@@ -1,19 +1,24 @@
+// Helper to open settings from sidebar
+const openSettings = () => {
+  cy.get(".sidebar-footer-btn").first().click();
+};
+
 describe("Settings Modal", () => {
   beforeEach(() => {
     cy.goToMainApp();
   });
 
-  it("S-1: gear icon only visible on main app screen", () => {
-    cy.get('.header-icon-btn[aria-label="Settings"]').should("be.visible");
+  it("S-1: settings button visible in sidebar on main app screen", () => {
+    cy.contains("Settings").should("exist");
   });
 
-  it("S-2: opens when gear icon is clicked", () => {
-    cy.get('.header-icon-btn[aria-label="Settings"]').click();
+  it("S-2: opens when settings button is clicked", () => {
+    openSettings();
     cy.get(".settings-modal").should("be.visible");
   });
 
   it("S-3: three sidebar tabs render (Account, Formats, About)", () => {
-    cy.get('.header-icon-btn[aria-label="Settings"]').click();
+    openSettings();
     cy.get(".settings-tab-btn").should("have.length", 3);
     cy.contains("Account").should("be.visible");
     cy.contains("Formats").should("be.visible");
@@ -21,21 +26,21 @@ describe("Settings Modal", () => {
   });
 
   it("S-4: closes on overlay click", () => {
-    cy.get('.header-icon-btn[aria-label="Settings"]').click();
+    openSettings();
     cy.get(".settings-modal").should("be.visible");
     cy.get(".settings-overlay").click({ force: true });
     cy.get(".settings-modal").should("not.exist");
   });
 
   it("S-5: closes on Escape key", () => {
-    cy.get('.header-icon-btn[aria-label="Settings"]').click();
+    openSettings();
     cy.get(".settings-modal").should("be.visible");
     cy.get("body").type("{esc}");
     cy.get(".settings-modal").should("not.exist");
   });
 
   it("S-6: closes on X button", () => {
-    cy.get('.header-icon-btn[aria-label="Settings"]').click();
+    openSettings();
     cy.get(".settings-modal").should("be.visible");
     cy.get(".settings-close-btn").click();
     cy.get(".settings-modal").should("not.exist");
@@ -45,7 +50,7 @@ describe("Settings Modal", () => {
 describe("Settings - Account Tab", () => {
   beforeEach(() => {
     cy.goToMainApp();
-    cy.get('.header-icon-btn[aria-label="Settings"]').click();
+    openSettings();
   });
 
   it("SA-1: displays user name and email", () => {
@@ -58,7 +63,8 @@ describe("Settings - Account Tab", () => {
   });
 
   it("SA-3: password reset button hidden for Google users", () => {
-    // Re-visit with a Google provider user
+    // Close current modal and re-visit with a Google provider user
+    cy.get(".settings-close-btn").click();
     cy.visit("/", {
       onBeforeLoad(win) {
         win.__CYPRESS_MOCK_USER__ = {
@@ -72,7 +78,7 @@ describe("Settings - Account Tab", () => {
         win.localStorage.setItem("sidekick_apikey_google-user-456", "sk-test-key-1234567890");
       },
     });
-    cy.get('.header-icon-btn[aria-label="Settings"]').click();
+    openSettings();
     cy.contains("Reset password").should("not.exist");
   });
 
@@ -114,7 +120,7 @@ describe("Settings - Account Tab", () => {
 describe("Settings - Formats Tab", () => {
   beforeEach(() => {
     cy.goToMainApp();
-    cy.get('.header-icon-btn[aria-label="Settings"]').click();
+    openSettings();
     cy.contains("Formats").click();
   });
 
@@ -150,7 +156,7 @@ describe("Settings - Formats Tab", () => {
 
     // Close and reopen settings
     cy.get(".settings-close-btn").click();
-    cy.get('.header-icon-btn[aria-label="Settings"]').click();
+    openSettings();
     cy.contains("Formats").click();
 
     // Should still be toggled off
@@ -161,7 +167,7 @@ describe("Settings - Formats Tab", () => {
 describe("Settings - About Tab", () => {
   beforeEach(() => {
     cy.goToMainApp();
-    cy.get('.header-icon-btn[aria-label="Settings"]').click();
+    openSettings();
     cy.contains("About").click();
   });
 

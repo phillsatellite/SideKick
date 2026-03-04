@@ -45,8 +45,9 @@ describe("Main App - Output Box", () => {
     cy.goToMainApp();
   });
 
-  it("O-1: shows placeholder text when empty", () => {
-    cy.contains("Your formatted text will appear here").should("be.visible");
+  it("O-1: shows empty state when no output", () => {
+    cy.get(".chat-empty").should("be.visible");
+    cy.contains("Tap the mic to start recording").should("be.visible");
   });
 
   it("O-2: displays formatted text after recording", () => {
@@ -76,54 +77,51 @@ describe("Main App - Output Box", () => {
     cy.get(".export-modal").should("be.visible");
   });
 
-  it("O-5: action buttons disabled when no output", () => {
-    cy.get('.output-icon-btn[title="Copy text"]').should("be.disabled");
-    cy.get('.output-icon-btn[title="Read aloud"]').should("be.disabled");
-    cy.get('.output-icon-btn[title="Export"]').should("be.disabled");
+  it("O-5: action buttons not visible when no output (empty state shown)", () => {
+    // When there's no output, the empty state is shown instead of OutputBox
+    cy.get(".chat-empty").should("be.visible");
+    cy.get(".output-icon-btn").should("not.exist");
   });
 });
 
-describe("Main App - History", () => {
+describe("Main App - Conversations", () => {
   beforeEach(() => {
     cy.goToMainApp();
   });
 
-  it("H-1: history section hidden when no items exist", () => {
-    cy.get(".history-list").should("not.exist");
+  it("H-1: no conversations in sidebar when none exist", () => {
+    cy.get(".sidebar-convo-btn").should("not.exist");
+    cy.contains("No conversations yet").should("exist");
   });
 
-  it("H-2: history appears after first recording with timestamp", () => {
+  it("H-2: conversation appears in sidebar after first recording", () => {
     cy.get(".mic-btn").click();
     cy.get(".mic-btn").click();
     cy.get(".output-text", { timeout: 5000 }).should("be.visible");
-    cy.get(".history-list").should("be.visible");
-    cy.get(".history-item").should("have.length", 1);
-    cy.get(".history-item-time").should("be.visible");
+    cy.get(".sidebar-convo-btn").should("have.length", 1);
   });
 
-  it("H-3: clicking a history item restores its text to OutputBox", () => {
+  it("H-3: clicking a conversation restores its text to OutputBox", () => {
     // Create a recording first
     cy.get(".mic-btn").click();
     cy.get(".mic-btn").click();
     cy.get(".output-text", { timeout: 5000 }).should("be.visible");
 
-    // Get the text content
-    cy.get(".output-text").invoke("text").then((originalText) => {
-      // Click the history item
-      cy.get(".history-item").first().click();
-      cy.get(".output-text").should("contain.text", originalText.substring(0, 50));
-    });
+    // Start a new conversation (clears output)
+    cy.get(".sidebar-new-btn").click();
+    cy.get(".chat-empty").should("be.visible");
+
+    // Click the sidebar conversation to restore
+    cy.get(".sidebar-convo-btn").first().click();
+    cy.get(".output-text").should("be.visible");
   });
 
-  it("H-4: stores up to 5 items, oldest dropped on overflow", () => {
-    // Create 6 recordings
-    for (let i = 0; i < 6; i++) {
-      cy.get(".mic-btn").click();
-      cy.get(".mic-btn").click();
-      cy.get(".output-text", { timeout: 5000 }).should("be.visible");
-      // Wait for processing to finish before next recording
-      cy.contains("Tap to speak", { timeout: 5000 }).should("be.visible");
-    }
-    cy.get(".history-item").should("have.length", 5);
+  it("H-4: new chat button clears output", () => {
+    cy.get(".mic-btn").click();
+    cy.get(".mic-btn").click();
+    cy.get(".output-text", { timeout: 5000 }).should("be.visible");
+
+    cy.get(".sidebar-new-btn").click();
+    cy.get(".chat-empty").should("be.visible");
   });
 });

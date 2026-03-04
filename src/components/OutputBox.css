@@ -1,22 +1,15 @@
 .output-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  transition: border-color 0.3s;
-}
-
-.output-card.has-content {
-  border-color: var(--text-muted);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .output-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px 12px;
-  border-bottom: 1px solid var(--border);
+  padding: 8px 0 12px;
+  flex-shrink: 0;
 }
 
 .output-label {
@@ -37,7 +30,7 @@
   height: 28px;
   border-radius: 7px;
   border: 1px solid var(--border);
-  background: var(--surface2);
+  background: var(--surface);
   color: var(--text-muted);
   cursor: pointer;
   display: flex;
@@ -63,10 +56,7 @@
 }
 
 .output-body {
-  padding: 32px 40px;
-  min-height: 100px;
-  max-height: 70vh;
-  overflow-y: auto;
+  flex: 1;
   display: flex;
   align-items: flex-start;
 }
@@ -93,6 +83,7 @@
   display: flex;
   gap: 5px;
   align-items: center;
+  padding: 8px 0;
 }
 
 .output-dot {
