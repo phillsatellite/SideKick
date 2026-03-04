@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "./utils/firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, db } from "./utils/firebase";
 import Welcome from "./components/Welcome.jsx";
 import AuthScreen from "./components/AuthScreen.jsx";
 import ApiKeySetup from "./components/ApiKeySetup.jsx";
@@ -46,17 +47,25 @@ export default function App() {
     if (mockUser) {
       setUser(mockUser);
       setAuthLoading(false);
+      // In Cypress tests, check localStorage for mock API key
       const savedKey = localStorage.getItem(`sidekick_apikey_${mockUser.uid}`);
       if (savedKey) setApiKey(savedKey);
       return;
     }
 
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       setAuthLoading(false);
       if (firebaseUser) {
-        const savedKey = localStorage.getItem(`sidekick_apikey_${firebaseUser.uid}`);
-        if (savedKey) setApiKey(savedKey);
+        // Fetch API key from Firestore
+        try {
+          const snap = await getDoc(doc(db, "users", firebaseUser.uid));
+          if (snap.exists() && snap.data().apiKey) {
+            setApiKey(snap.data().apiKey);
+          }
+        } catch {
+          // Firestore fetch failed — user will see API key setup screen
+        }
       } else {
         setApiKey("");
       }
@@ -93,10 +102,14 @@ export default function App() {
     setShowWelcome(false);
   };
 
-  const handleKeySubmit = (key) => {
+  const handleKeySubmit = async (key) => {
     setApiKey(key);
     if (user) {
-      localStorage.setItem(`sidekick_apikey_${user.uid}`, key);
+      try {
+        await setDoc(doc(db, "users", user.uid), { apiKey: key }, { merge: true });
+      } catch {
+        // Firestore save failed — key is still in memory for this session
+      }
     }
   };
 
