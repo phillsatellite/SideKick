@@ -32,7 +32,8 @@ Sidekick is a progressive web app that turns your voice into clean, structured n
 - Dark and light mode (dark by default, persisted across sessions)
 - Copy to clipboard with visual confirmation
 - Read aloud via Web Speech Synthesis API
-- History of recent transcriptions (last 5)
+- Collapsible sidebar with conversation history
+- History of recent transcriptions
 - First-launch onboarding walkthrough
 - Installable as a PWA (standalone mode)
 
@@ -81,7 +82,8 @@ SideKick/
 │   │   ├── AuthScreen.jsx      # Sign in / Create account UI
 │   │   ├── ApiKeySetup.jsx     # OpenAI API key input
 │   │   ├── Welcome.jsx         # First-launch onboarding
-│   │   ├── Header.jsx          # Logo and settings gear
+│   │   ├── Header.jsx          # Logo bar (pre-auth screens)
+│   │   ├── Sidebar.jsx         # Collapsible sidebar (main app)
 │   │   ├── MicButton.jsx       # Voice recorder with waveform
 │   │   ├── OutputBox.jsx       # Transcription display + actions
 │   │   ├── History.jsx         # Recent transcription list
@@ -105,6 +107,13 @@ SideKick/
 ## Getting Started
 
 All you need is an [OpenAI API key](https://platform.openai.com/api-keys). Create an account in the app, enter your key, and start recording.
+
+> **Firestore Security Rules** — If you're self-hosting, make sure your Firestore rules restrict API key access to the owning user:
+> ```
+> match /users/{userId} {
+>   allow read, write: if request.auth != null && request.auth.uid == userId;
+> }
+> ```
 
 ### Development
 
@@ -148,7 +157,7 @@ The dev server must be running on `http://localhost:5173` before launching tests
 
 1. **Onboarding** — First-time users see a welcome page explaining the app
 2. **Account** — Users create an account (email/password or Google) stored in Firebase Auth
-3. **API Key** — Users enter their own OpenAI API key (stored locally per user, never sent to any server besides OpenAI)
+3. **API Key** — Users enter their own OpenAI API key (stored securely in Firebase Firestore, scoped per user)
 4. **Record** — Tap the mic button to start recording; a waveform visualizes audio input
 5. **Transcribe** — Audio is sent to OpenAI Whisper for transcription
 6. **Format** — The transcript is cleaned up and formatted by GPT-4o-mini
@@ -159,14 +168,14 @@ The dev server must be running on `http://localhost:5173` before launching tests
 
 - **Fonts:** [Syne](https://fonts.google.com/specimen/Syne) (UI) and [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif) (display)
 - **Theming:** CSS custom properties with smooth transitions between dark and light modes
-- **Layout:** Mobile-first, responsive design with touch-friendly controls
+- **Layout:** Mobile-first, responsive design with collapsible sidebar and touch-friendly controls
 - **Modals:** Rendered via React Portals to avoid stacking context issues
 
 ## Privacy
 
-- OpenAI API keys are stored in the browser's localStorage, scoped per user. They are never stored in any database or sent to any server other than OpenAI's API.
+- OpenAI API keys are stored in Firebase Firestore, scoped per user and protected by security rules so only the key owner can read or write their own key. Keys are never sent to any server other than OpenAI's API.
 - Audio is sent directly from the browser to OpenAI for transcription — no intermediary server.
-- Firebase stores only minimal account data (username, email, creation date). No transcription data is stored in the cloud.
+- Firebase stores minimal account data (username, email, creation date) and the user's encrypted API key. No transcription data is stored in the cloud.
 
 ## License
 
