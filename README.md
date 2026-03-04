@@ -121,6 +121,7 @@ All you need is an [OpenAI API key](https://platform.openai.com/api-keys). Creat
    npm install
    ```
 
+
 3. **Start the dev server**
 
    ```bash
