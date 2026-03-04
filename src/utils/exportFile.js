@@ -2,6 +2,9 @@ import { jsPDF } from "jspdf";
 import { Document, Packer, Paragraph, TextRun } from "docx";
 
 export async function generateFile(text, format) {
+  if (!text || typeof text !== "string") throw new Error("No text to export.");
+  if (!format) throw new Error("Export format is required.");
+
   const timestamp = new Date().toISOString().slice(0, 10);
   const baseName = `sidekick-export-${timestamp}`;
 

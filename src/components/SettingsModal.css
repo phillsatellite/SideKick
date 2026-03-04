@@ -2,11 +2,11 @@
 .settings-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--overlay-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: var(--modal-z);
   animation: settingsFadeIn 0.15s ease;
   padding: 20px;
 }
@@ -45,8 +45,8 @@
 }
 
 .settings-close-btn {
-  width: 28px;
-  height: 28px;
+  width: var(--icon-btn-size);
+  height: var(--icon-btn-size);
   border-radius: 7px;
   border: 1px solid var(--border);
   background: var(--surface2);
@@ -244,7 +244,7 @@
 }
 
 .settings-connection-status.connected {
-  color: #2d9e6b;
+  color: var(--color-success);
 }
 
 /* ── Theme toggle row ── */
@@ -280,8 +280,8 @@
 }
 
 .settings-signout-btn:hover {
-  color: #e63e2f;
-  border-color: #e63e2f;
+  color: var(--color-error);
+  border-color: var(--color-error);
 }
 
 /* ── Danger zone / Delete account ── */
@@ -309,8 +309,8 @@
 }
 
 .settings-delete-btn:hover {
-  color: #e63e2f;
-  border-color: #e63e2f;
+  color: var(--color-error);
+  border-color: var(--color-error);
   background: rgba(230, 62, 47, 0.06);
 }
 
@@ -337,7 +337,7 @@
 
 .settings-delete-error {
   font-size: 12px;
-  color: #e63e2f;
+  color: var(--color-error);
   margin: 0;
 }
 
@@ -367,8 +367,8 @@
 .settings-delete-confirm-btn {
   padding: 8px 14px;
   border-radius: var(--radius-sm);
-  border: 1px solid #e63e2f;
-  background: #e63e2f;
+  border: 1px solid var(--color-error);
+  background: var(--color-error);
   color: #fff;
   font-family: 'Syne', sans-serif;
   font-size: 12px;

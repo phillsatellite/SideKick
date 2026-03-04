@@ -26,8 +26,8 @@
 }
 
 .output-icon-btn {
-  width: 28px;
-  height: 28px;
+  width: var(--icon-btn-size);
+  height: var(--icon-btn-size);
   border-radius: 7px;
   border: 1px solid var(--border);
   background: var(--surface);
@@ -50,8 +50,8 @@
 }
 
 .output-icon-btn.copied {
-  color: #2d9e6b;
-  border-color: #2d9e6b;
+  color: var(--color-success);
+  border-color: var(--color-success);
   background: rgba(45, 158, 107, 0.08);
 }
 
