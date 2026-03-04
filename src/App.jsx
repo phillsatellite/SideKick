@@ -11,17 +11,19 @@ import Header from "./components/Header.jsx";
 import Sidebar from "./components/Sidebar.jsx";
 import ExportModal from "./components/ExportModal.jsx";
 import SettingsModal from "./components/SettingsModal.jsx";
-import { HamburgerIcon } from "./components/Icons.jsx";
+import { HamburgerIcon, MicIcon } from "./components/Icons.jsx";
+import { clearAccessToken } from "./utils/googleDrive";
+import { STORAGE_KEYS } from "./utils/constants";
 import "./App.css";
 
 export default function App() {
   const [showWelcome, setShowWelcome] = useState(
-    () => !localStorage.getItem("sidekick_seen_welcome")
+    () => !localStorage.getItem(STORAGE_KEYS.SEEN_WELCOME)
   );
   const [user, setUser] = useState(undefined);
   const [authLoading, setAuthLoading] = useState(true);
   const [dark, setDark] = useState(() => {
-    const saved = localStorage.getItem("sidekick_dark_mode");
+    const saved = localStorage.getItem(STORAGE_KEYS.DARK_MODE);
     return saved === null ? true : saved === "1";
   });
   const [apiKey, setApiKey] = useState("");
@@ -38,8 +40,17 @@ export default function App() {
   // Dark mode
   useEffect(() => {
     document.body.classList.toggle("dark", dark);
-    localStorage.setItem("sidekick_dark_mode", dark ? "1" : "0");
+    localStorage.setItem(STORAGE_KEYS.DARK_MODE, dark ? "1" : "0");
   }, [dark]);
+
+  // Auto-collapse sidebar on resize to mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) setSidebarCollapsed(true);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Auth listener
   useEffect(() => {
@@ -48,7 +59,7 @@ export default function App() {
       setUser(mockUser);
       setAuthLoading(false);
       // In Cypress tests, check localStorage for mock API key
-      const savedKey = localStorage.getItem(`sidekick_apikey_${mockUser.uid}`);
+      const savedKey = localStorage.getItem(STORAGE_KEYS.apiKey(mockUser.uid));
       if (savedKey) setApiKey(savedKey);
       return;
     }
@@ -76,7 +87,7 @@ export default function App() {
   // Load conversations when user authenticates
   useEffect(() => {
     if (user && user.uid) {
-      const saved = localStorage.getItem(`sidekick_conversations_${user.uid}`);
+      const saved = localStorage.getItem(STORAGE_KEYS.conversations(user.uid));
       if (saved) {
         try {
           setConversations(JSON.parse(saved));
@@ -91,14 +102,14 @@ export default function App() {
   useEffect(() => {
     if (user && user.uid && conversations.length > 0) {
       localStorage.setItem(
-        `sidekick_conversations_${user.uid}`,
+        STORAGE_KEYS.conversations(user.uid),
         JSON.stringify(conversations)
       );
     }
   }, [conversations, user]);
 
   const handleWelcomeContinue = () => {
-    localStorage.setItem("sidekick_seen_welcome", "1");
+    localStorage.setItem(STORAGE_KEYS.SEEN_WELCOME, "1");
     setShowWelcome(false);
   };
 
@@ -114,6 +125,7 @@ export default function App() {
   };
 
   const handleSignOut = async () => {
+    clearAccessToken();
     await signOut(auth);
     setApiKey("");
     setOutput("");
@@ -246,19 +258,7 @@ export default function App() {
             {!output && !processing ? (
               <div className="chat-empty">
                 <div className="chat-empty-logo">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                  </svg>
+                  <MicIcon />
                 </div>
                 <p className="chat-empty-text">
                   Tap the mic to start recording

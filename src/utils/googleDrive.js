@@ -39,10 +39,15 @@ export function getAccessToken() {
   return currentAccessToken;
 }
 
+export function clearAccessToken() {
+  currentAccessToken = null;
+  tokenClient = null;
+}
+
 export async function uploadToDrive(blob, filename, mimeType) {
-  if (!currentAccessToken) {
-    throw new Error("Not authenticated with Google.");
-  }
+  if (!currentAccessToken) throw new Error("Not authenticated with Google.");
+  if (!blob) throw new Error("No file data to upload.");
+  if (!filename || typeof filename !== "string") throw new Error("Filename is required.");
 
   const metadata = { name: filename, mimeType };
   const form = new FormData();

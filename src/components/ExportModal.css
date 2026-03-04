@@ -1,11 +1,11 @@
 .export-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--overlay-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: var(--modal-z);
   animation: fadeIn 0.15s ease;
   padding: 20px;
 }
@@ -37,8 +37,8 @@
 }
 
 .export-close-btn {
-  width: 28px;
-  height: 28px;
+  width: var(--icon-btn-size);
+  height: var(--icon-btn-size);
   border-radius: 7px;
   border: 1px solid var(--border);
   background: var(--surface2);
@@ -159,14 +159,14 @@
 .export-error {
   padding: 0 18px 14px;
   font-size: 11px;
-  color: #e63e2f;
+  color: var(--color-error);
   line-height: 1.5;
 }
 
 .export-success {
   padding: 0 18px 14px;
   font-size: 11px;
-  color: #2d9e6b;
+  color: var(--color-success);
   font-weight: 600;
   line-height: 1.5;
 }

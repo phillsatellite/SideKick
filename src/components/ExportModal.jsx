@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { generateFile } from "../utils/exportFile";
 import {
@@ -8,31 +8,9 @@ import {
   getAccessToken,
   uploadToDrive,
 } from "../utils/googleDrive";
-import { CloseIcon } from "./Icons";
+import { CloseIcon, FileIcon, DownloadIcon, DriveIcon } from "./Icons";
+import { useEscapeKey } from "../hooks/useEscapeKey";
 import "./ExportModal.css";
-
-const FileIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-    <polyline points="14 2 14 8 20 8" />
-  </svg>
-);
-
-const DownloadIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-    <polyline points="7 10 12 15 17 10" />
-    <line x1="12" y1="15" x2="12" y2="3" />
-  </svg>
-);
-
-const DriveIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2L2 19.5h20L12 2z" />
-    <path d="M2 19.5l5-8.5h14" />
-    <path d="M16 11L22 19.5" />
-  </svg>
-);
 
 const FORMAT_OPTIONS = [
   { id: "pdf", label: "PDF" },
@@ -59,13 +37,12 @@ export default function ExportModal({ output, onClose }) {
     }
   }, []);
 
+  useEscapeKey(onClose);
+
+  const closeTimerRef = useRef(null);
   useEffect(() => {
-    const handleEsc = (e) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, [onClose]);
+    return () => clearTimeout(closeTimerRef.current);
+  }, []);
 
   const handleSaveToComputer = async () => {
     setExporting(true);
@@ -81,7 +58,7 @@ export default function ExportModal({ output, onClose }) {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       setSuccess("File downloaded!");
-      setTimeout(onClose, 1200);
+      closeTimerRef.current = setTimeout(onClose, 1200);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -106,7 +83,7 @@ export default function ExportModal({ output, onClose }) {
       const { blob, filename, mimeType } = await generateFile(output, format);
       await uploadToDrive(blob, filename, mimeType);
       setSuccess("Uploaded to Google Drive!");
-      setTimeout(onClose, 1500);
+      closeTimerRef.current = setTimeout(onClose, 1500);
     } catch (err) {
       setError(err.message);
     } finally {

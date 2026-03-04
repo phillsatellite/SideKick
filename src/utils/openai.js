@@ -29,6 +29,9 @@ Do not add commentary, suggestions, or any text beyond what the speaker actually
 // ─── Whisper transcription ────────────────────────────────────────────────────
 // TODO: Wire up when ready
 export async function transcribeAudio(audioBlob, apiKey) {
+  if (!audioBlob) throw new Error("No audio data provided.");
+  if (!apiKey || typeof apiKey !== "string") throw new Error("A valid API key is required.");
+
   const formData = new FormData();
   formData.append("file", audioBlob, "audio.webm");
   formData.append("model", "whisper-1");
@@ -47,6 +50,9 @@ export async function transcribeAudio(audioBlob, apiKey) {
 // ─── GPT formatting ──────────────────────────────────────────────────────────
 // TODO: Wire up when ready
 export async function clarifyWithAI(transcript, apiKey) {
+  if (!transcript || typeof transcript !== "string") throw new Error("No transcript provided.");
+  if (!apiKey || typeof apiKey !== "string") throw new Error("A valid API key is required.");
+
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
