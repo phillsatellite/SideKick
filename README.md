@@ -121,11 +121,7 @@ All you need is an [OpenAI API key](https://platform.openai.com/api-keys). Creat
    npm install
    ```
 
-3. **Set up environment variables**
-
-   Create a `.env` file in the project root with the Firebase and Google OAuth credentials. See `.env.example` for the required variables.
-
-4. **Start the dev server**
+3. **Start the dev server**
 
    ```bash
    npm run dev

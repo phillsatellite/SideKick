@@ -19,9 +19,9 @@ describe("Theme", () => {
   });
 
   it("T-3: theme persists across page refresh", () => {
-    // Go to main app and switch to light mode
+    // Go to main app and switch to light mode via sidebar settings
     cy.goToMainApp();
-    cy.get('.header-icon-btn[aria-label="Settings"]').click();
+    cy.get(".sidebar-footer-btn").first().click();
     cy.get(".settings-toggle").last().click();
     cy.get("body").should("not.have.class", "dark");
 
@@ -34,9 +34,9 @@ describe("Theme", () => {
   });
 });
 
-describe("Header", () => {
-  it("HD-1: logo renders on all screens", () => {
-    // Welcome screen
+describe("Header & Sidebar", () => {
+  it("HD-1: logo/branding renders on all screens", () => {
+    // Welcome screen - header logo
     cy.visit("/", {
       onBeforeLoad(win) {
         win.localStorage.removeItem("sidekick_seen_welcome");
@@ -45,12 +45,12 @@ describe("Header", () => {
     cy.get(".header-logo").should("be.visible");
     cy.get(".header-logo-name").should("contain.text", "Sidekick");
 
-    // Auth screen (skip welcome, no user)
+    // Auth screen - header logo
     cy.skipWelcome();
     cy.visit("/");
     cy.get(".header-logo").should("be.visible");
 
-    // API key screen (has user, no key)
+    // API key screen - header logo
     cy.visit("/", {
       onBeforeLoad(win) {
         win.localStorage.setItem("sidekick_seen_welcome", "1");
@@ -65,29 +65,29 @@ describe("Header", () => {
     });
     cy.get(".header-logo").should("be.visible");
 
-    // Main app screen
+    // Main app screen - sidebar exists
     cy.goToMainApp();
-    cy.get(".header-logo").should("be.visible");
+    cy.get(".sidebar").should("exist");
   });
 
-  it("HD-2: gear icon hidden on welcome screen", () => {
+  it("HD-2: sidebar hidden on welcome screen", () => {
     cy.visit("/", {
       onBeforeLoad(win) {
         win.localStorage.removeItem("sidekick_seen_welcome");
       },
     });
     cy.get(".welcome-card").should("be.visible");
-    cy.get('.header-icon-btn[aria-label="Settings"]').should("not.exist");
+    cy.get(".sidebar").should("not.exist");
   });
 
-  it("HD-3: gear icon hidden on auth screen", () => {
+  it("HD-3: sidebar hidden on auth screen", () => {
     cy.skipWelcome();
     cy.visit("/");
     cy.get(".auth-card").should("be.visible");
-    cy.get('.header-icon-btn[aria-label="Settings"]').should("not.exist");
+    cy.get(".sidebar").should("not.exist");
   });
 
-  it("HD-4: gear icon hidden on API key screen", () => {
+  it("HD-4: sidebar hidden on API key screen", () => {
     cy.visit("/", {
       onBeforeLoad(win) {
         win.localStorage.setItem("sidekick_seen_welcome", "1");
@@ -101,11 +101,12 @@ describe("Header", () => {
       },
     });
     cy.get(".setup-card").should("be.visible");
-    cy.get('.header-icon-btn[aria-label="Settings"]').should("not.exist");
+    cy.get(".sidebar").should("not.exist");
   });
 
-  it("HD-5: gear icon visible on main app screen", () => {
+  it("HD-5: sidebar with settings visible on main app screen", () => {
     cy.goToMainApp();
-    cy.get('.header-icon-btn[aria-label="Settings"]').should("be.visible");
+    cy.get(".sidebar").should("exist");
+    cy.contains("Settings").should("exist");
   });
 });
