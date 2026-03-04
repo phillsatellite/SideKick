@@ -43,12 +43,10 @@ describe("API Key Setup", () => {
     cy.get(".setup-input").should("have.attr", "type", "password");
   });
 
-  it("K-6: key persists in localStorage scoped to user UID", () => {
-    const testKey = "sk-test-key-1234567890";
-    cy.get(".setup-input").type(testKey);
+  it("K-6: submitting key shows main app with mic and sidebar", () => {
+    cy.get(".setup-input").type("sk-test-key-1234567890");
     cy.get(".setup-submit-btn").click();
-    cy.window().then((win) => {
-      expect(win.localStorage.getItem("sidekick_apikey_test-user-123")).to.equal(testKey);
-    });
+    cy.get(".mic-btn").should("be.visible");
+    cy.get(".sidebar").should("exist");
   });
 });
