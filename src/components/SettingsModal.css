@@ -447,8 +447,8 @@
 }
 
 .settings-toggle.on {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--gradient);
+  border-color: transparent;
 }
 
 .settings-toggle-thumb {
@@ -464,7 +464,7 @@
 
 .settings-toggle.on .settings-toggle-thumb {
   transform: translateX(18px);
-  background: var(--accent-fg);
+  background: #fff;
 }
 
 /* ── About tab ── */

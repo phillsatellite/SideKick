@@ -57,22 +57,25 @@
   gap: 10px;
   padding: 10px 12px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface2);
-  color: var(--text);
+  border: none;
+  background: var(--gradient);
+  color: #fff;
   font-family: 'Syne', sans-serif;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   width: 100%;
   text-align: left;
-  transition: background 0.2s, border-color 0.2s;
+  transition: opacity 0.2s, transform 0.15s;
   white-space: nowrap;
 }
 
 .sidebar-new-btn:hover {
-  background: var(--border);
-  border-color: var(--text-muted);
+  opacity: 0.88;
+}
+
+.sidebar-new-btn:active {
+  transform: scale(0.98);
 }
 
 /* ── Conversation list ── */

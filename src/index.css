@@ -48,6 +48,21 @@ body.dark {
   --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
 }
 
+/* ── Gradient accent ── */
+@property --mic-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+:root {
+  --gradient: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+}
+
+@keyframes mic-spin {
+  to { --mic-angle: 360deg; }
+}
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }

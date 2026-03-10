@@ -72,8 +72,8 @@
   margin-top: 10px;
   border-radius: var(--radius-sm);
   border: none;
-  background: var(--accent);
-  color: var(--accent-fg);
+  background: var(--gradient);
+  color: #fff;
   font-family: 'Syne', sans-serif;
   font-size: 13px;
   font-weight: 600;

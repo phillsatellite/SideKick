@@ -10,15 +10,18 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  border: 2px solid var(--mic-idle);
-  background: transparent;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    conic-gradient(from var(--mic-angle), #6366f1, #a855f7, #ec4899, #6366f1) border-box;
+  animation: mic-spin 4s linear infinite;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   color: var(--mic-idle);
-  transition: border-color 0.25s, background 0.25s, transform 0.15s;
+  transition: background 0.25s, transform 0.15s;
   flex-shrink: 0;
 }
 
@@ -36,9 +39,10 @@
 }
 
 .mic-btn.recording {
-  border-color: var(--mic-active);
+  border: 2px solid var(--mic-active);
   background: rgba(230, 62, 47, 0.06);
   color: var(--mic-active);
+  animation: none;
 }
 
 .mic-btn.recording::before {
