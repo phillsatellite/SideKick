@@ -103,9 +103,11 @@
   gap: 6px;
   padding: 7px 14px;
   border-radius: 20px;
-  border: none;
-  background: var(--gradient);
-  color: #fff;
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    var(--gradient) border-box;
+  color: var(--text);
   font-family: 'Syne', sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -115,7 +117,7 @@
 }
 
 .output-action-btn:hover {
-  opacity: 0.85;
+  opacity: 0.7;
 }
 
 .output-action-btn:active {
@@ -123,7 +125,7 @@
 }
 
 .output-action-btn.copied {
-  background: var(--color-success);
+  color: var(--color-success);
 }
 
 /* ── Bottom input bar ── */
