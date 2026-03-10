@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc, setDoc, deleteDoc, collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { auth, db } from "./utils/firebase";
@@ -11,7 +11,7 @@ import Header from "./components/Header.jsx";
 import Sidebar from "./components/Sidebar.jsx";
 import ExportModal from "./components/ExportModal.jsx";
 import SettingsModal from "./components/SettingsModal.jsx";
-import { HamburgerIcon, MicIcon } from "./components/Icons.jsx";
+import { HamburgerIcon, MicIcon, DownloadIcon, SpeakIcon, CopyIcon, CheckIcon } from "./components/Icons.jsx";
 import { clearAccessToken } from "./utils/googleDrive";
 import { STORAGE_KEYS } from "./utils/constants";
 import "./App.css";
@@ -33,6 +33,8 @@ export default function App() {
   const [activeConversationId, setActiveConversationId] = useState(null);
   const [showExportModal, setShowExportModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const copyTimerRef = useRef(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(
     () => window.innerWidth < 768
   );
@@ -165,6 +167,20 @@ export default function App() {
     }
   };
 
+  const handleCopy = () => {
+    if (!output) return;
+    navigator.clipboard.writeText(output);
+    setCopied(true);
+    clearTimeout(copyTimerRef.current);
+    copyTimerRef.current = setTimeout(() => setCopied(false), 1800);
+  };
+
+  const handleSpeak = () => {
+    if (!output) return;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance(output));
+  };
+
   const handleRenameConversation = async (id, newTitle) => {
     if (!user?.uid) return;
     try {
@@ -277,6 +293,19 @@ export default function App() {
                   ?.title || ""
               : "New conversation"}
           </span>
+          {output && !processing && (
+            <div className="topbar-actions">
+              <button className="output-action-btn" onClick={() => setShowExportModal(true)} title="Export">
+                <DownloadIcon /> Export
+              </button>
+              <button className="output-action-btn" onClick={handleSpeak} title="Read aloud">
+                <SpeakIcon /> Read aloud
+              </button>
+              <button className={`output-action-btn${copied ? " copied" : ""}`} onClick={handleCopy} title="Copy text">
+                {copied ? <CheckIcon /> : <CopyIcon />} {copied ? "Copied!" : "Copy"}
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="chat-content">
@@ -294,7 +323,6 @@ export default function App() {
               <OutputBox
                 output={output}
                 processing={processing}
-                onExport={() => setShowExportModal(true)}
               />
             )}
           </div>

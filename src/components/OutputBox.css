@@ -4,61 +4,11 @@
   flex-direction: column;
 }
 
-.output-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 0 12px;
-  flex-shrink: 0;
-}
-
-.output-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.output-actions {
-  display: flex;
-  gap: 6px;
-}
-
-.output-icon-btn {
-  width: var(--icon-btn-size);
-  height: var(--icon-btn-size);
-  border-radius: 7px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-.output-icon-btn:hover:not(:disabled) {
-  color: var(--text);
-  border-color: var(--text-muted);
-}
-
-.output-icon-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.output-icon-btn.copied {
-  color: var(--color-success);
-  border-color: var(--color-success);
-  background: rgba(45, 158, 107, 0.08);
-}
-
 .output-body {
   flex: 1;
   display: flex;
   align-items: flex-start;
+  padding-top: 8px;
 }
 
 .output-text {
