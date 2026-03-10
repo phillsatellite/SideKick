@@ -166,6 +166,71 @@
   color: var(--text);
 }
 
+/* ── Inline rename input ── */
+.sidebar-convo-edit {
+  padding: 2px 8px;
+}
+
+.sidebar-convo-input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* ── Context menu ── */
+.convo-context-menu {
+  position: fixed;
+  z-index: 2000;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  min-width: 164px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.convo-context-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.convo-context-item:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.convo-context-item--danger {
+  color: #e05555;
+}
+
+.convo-context-item--danger:hover {
+  background: rgba(224, 85, 85, 0.1);
+  color: #e05555;
+}
+
 /* ── Mobile ── */
 @media (max-width: 768px) {
   .sidebar {

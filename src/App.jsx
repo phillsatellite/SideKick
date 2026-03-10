@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { doc, getDoc, setDoc, collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, setDoc, deleteDoc, collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { auth, db } from "./utils/firebase";
 import Welcome from "./components/Welcome.jsx";
 import AuthScreen from "./components/AuthScreen.jsx";
@@ -165,6 +165,37 @@ export default function App() {
     }
   };
 
+  const handleRenameConversation = async (id, newTitle) => {
+    if (!user?.uid) return;
+    try {
+      await setDoc(
+        doc(db, "users", user.uid, "conversations", id),
+        { title: newTitle, updatedAt: new Date().toISOString() },
+        { merge: true }
+      );
+    } catch {}
+  };
+
+  const handleExportConversation = (id) => {
+    const convo = conversations.find((c) => c.id === id);
+    if (convo) {
+      setOutput(convo.text);
+      setActiveConversationId(id);
+      setShowExportModal(true);
+    }
+  };
+
+  const handleDeleteConversation = async (id) => {
+    if (!user?.uid) return;
+    try {
+      await deleteDoc(doc(db, "users", user.uid, "conversations", id));
+    } catch {}
+    if (activeConversationId === id) {
+      setActiveConversationId(null);
+      setOutput("");
+    }
+  };
+
   const isMainApp = !authLoading && !showWelcome && !!user && !!apiKey;
 
   const hero = (
@@ -224,6 +255,9 @@ export default function App() {
         onNewConversation={handleNewConversation}
         onOpenSettings={() => setShowSettingsModal(true)}
         onSignOut={handleSignOut}
+        onRenameConversation={handleRenameConversation}
+        onExportConversation={handleExportConversation}
+        onDeleteConversation={handleDeleteConversation}
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed((c) => !c)}
       />
