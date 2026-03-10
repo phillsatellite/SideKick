@@ -107,3 +107,11 @@
 .mic-wave-bar:nth-child(5) { animation-delay: 0.2s; }
 .mic-wave-bar:nth-child(6) { animation-delay: 0.1s; }
 .mic-wave-bar:nth-child(7) { animation-delay: 0s; }
+
+.mic-mock-notice {
+  font-size: 13px;
+  color: #f0c040;
+  opacity: 0.85;
+  margin: 0;
+  letter-spacing: 0.01em;
+}

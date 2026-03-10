@@ -57,6 +57,7 @@ export default function MicButton({ apiKey, processing, setProcessing, onResult 
         {statusText}
       </span>
       <Waveform active={active} />
+      <p className="mic-mock-notice">Work in progress — results are mock data.</p>
     </div>
   );
 }
