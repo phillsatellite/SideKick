@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { auth, db } from "./utils/firebase";
 import Welcome from "./components/Welcome.jsx";
 import AuthScreen from "./components/AuthScreen.jsx";
@@ -84,29 +84,23 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  // Load conversations when user authenticates
+  // Sync conversations from Firestore in real time
   useEffect(() => {
-    if (user && user.uid) {
-      const saved = localStorage.getItem(STORAGE_KEYS.conversations(user.uid));
-      if (saved) {
-        try {
-          setConversations(JSON.parse(saved));
-        } catch {
-          setConversations([]);
-        }
-      }
+    if (!user?.uid) {
+      setConversations([]);
+      return;
     }
+    const q = query(
+      collection(db, "users", user.uid, "conversations"),
+      orderBy("updatedAt", "desc")
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setConversations(snapshot.docs.map((d) => d.data()));
+    }, () => {
+      // snapshot error — leave conversations as-is
+    });
+    return () => unsubscribe();
   }, [user]);
-
-  // Persist conversations
-  useEffect(() => {
-    if (user && user.uid && conversations.length > 0) {
-      localStorage.setItem(
-        STORAGE_KEYS.conversations(user.uid),
-        JSON.stringify(conversations)
-      );
-    }
-  }, [conversations, user]);
 
   const handleWelcomeContinue = () => {
     localStorage.setItem(STORAGE_KEYS.SEEN_WELCOME, "1");
@@ -133,27 +127,25 @@ export default function App() {
     setActiveConversationId(null);
   };
 
-  const handleResult = (text) => {
+  const handleResult = async (text) => {
     setOutput(text);
     const title =
       text.substring(0, 60).replace(/\n/g, " ").trim() || "Untitled";
     const now = new Date().toISOString();
+    const convId = activeConversationId || crypto.randomUUID();
 
-    if (activeConversationId) {
-      setConversations((prev) =>
-        prev.map((c) =>
-          c.id === activeConversationId
-            ? { ...c, text, title, updatedAt: now }
-            : c
-        )
+    if (!activeConversationId) setActiveConversationId(convId);
+
+    try {
+      await setDoc(
+        doc(db, "users", user.uid, "conversations", convId),
+        activeConversationId
+          ? { title, text, updatedAt: now }
+          : { id: convId, title, text, createdAt: now, updatedAt: now },
+        { merge: true }
       );
-    } else {
-      const newId = crypto.randomUUID();
-      setConversations((prev) => [
-        { id: newId, title, text, createdAt: now, updatedAt: now },
-        ...prev,
-      ]);
-      setActiveConversationId(newId);
+    } catch {
+      // Firestore write failed — onSnapshot won't update, nothing to do
     }
   };
 
