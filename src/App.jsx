@@ -66,9 +66,8 @@ export default function App() {
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
-      setAuthLoading(false);
       if (firebaseUser) {
-        // Fetch API key from Firestore
+        // Fetch API key from Firestore before revealing the app
         try {
           const snap = await getDoc(doc(db, "users", firebaseUser.uid));
           if (snap.exists() && snap.data().apiKey) {
@@ -80,6 +79,7 @@ export default function App() {
       } else {
         setApiKey("");
       }
+      setAuthLoading(false);
     });
     return () => unsubscribe();
   }, []);
