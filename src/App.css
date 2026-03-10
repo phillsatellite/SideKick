@@ -101,29 +101,29 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 7px 14px;
   border-radius: 20px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-muted);
+  border: none;
+  background: var(--gradient);
+  color: #fff;
   font-family: 'Syne', sans-serif;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  transition: opacity 0.2s, transform 0.15s;
   white-space: nowrap;
 }
 
 .output-action-btn:hover {
-  color: var(--text);
-  border-color: var(--text-muted);
-  background: var(--surface2);
+  opacity: 0.85;
+}
+
+.output-action-btn:active {
+  transform: scale(0.97);
 }
 
 .output-action-btn.copied {
-  color: var(--color-success);
-  border-color: var(--color-success);
-  background: rgba(45, 158, 107, 0.08);
+  background: var(--color-success);
 }
 
 /* ── Bottom input bar ── */
